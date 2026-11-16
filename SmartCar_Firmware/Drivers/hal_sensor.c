@@ -4,7 +4,7 @@
     #include <avr/io.h>
 #else
     #include <stdio.h>
-    static uint8_t mock_sensor_state = 0b010;
+    static uint8_t mock_sensor_state = SENSOR_CENTER_MASK;
 #endif
 void HAL_Sensor_Init(void) {
 #ifdef __AVR_ATmega328P__
@@ -16,9 +16,9 @@ void HAL_Sensor_Init(void) {
 
 uint8_t HAL_Sensor_ReadLine(void) {
 #ifdef __AVR_ATmega328P__
-    return (PINC & 0x07U);
+    return (PINC & SENSOR_ALL_MASK);
 #else
-    return (mock_sensor_state & 0x07U);
+    return (mock_sensor_state & SENSOR_ALL_MASK);
 #endif
 }
 
