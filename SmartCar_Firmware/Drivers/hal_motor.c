@@ -28,11 +28,11 @@ void HAL_Motor_SetSpeed(int16_t left_speed, int16_t right_speed){
         right_speed = -255;
     }
 #ifdef __AVR_ATmega328P__
-    if (left_speed >= 0) {
+    if (left_speed > 0) {
         PORTD |= (1 << PD4);
         PORTD &= ~(1 << PD5);
         OCR1A = (uint8_t)left_speed;
-    } else if {
+    } else if (left_speed < 0) {
         PORTD &= ~(1 << PD4);
         PORTD |= (1 << PD5);
         OCR1A = (uint8_t)(-left_speed);
@@ -40,12 +40,12 @@ void HAL_Motor_SetSpeed(int16_t left_speed, int16_t right_speed){
         PORTD &= ~((1 << PD4) | (1 << PD5));
         OCR1A = 0;
     }
-    if (right_speed >= 0) {
+    if (right_speed > 0) {
         PORTD |= (1 << PD7);
         PORTB &= ~(1 << PB0);
         OCR1B = (uint8_t)right_speed;
-    } else if {
-        PORTD & ~(1 << PD7);
+    } else if (right_speed < 0) {
+        PORTD &= ~(1 << PD7);
         PORTB |= (1 << PB0);
         OCR1B = (uint8_t)(-right_speed);
     } else {

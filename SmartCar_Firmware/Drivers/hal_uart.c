@@ -22,7 +22,7 @@ void HAL_UART_SetRxCallback(void (*callback)(uint8_t received_byte)) {
     rx_callback_fn = callback;
 }
 #ifdef __AVR_ATmega328P__
-ISR(UART_RX_vect) {
+ISR(USART_RX_vect) {
     uint8_t data = UDR0;
     if (rx_callback_fn != NULL) {
         rx_callback_fn(data);
