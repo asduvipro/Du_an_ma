@@ -12,7 +12,7 @@ void HAL_Motor_Init(void){
     DDRD |= (1 << PD3);
     TCCR1A = (1 << COM1A1) | (1 << COM1B1) | (1 << WGM10);
     TCCR1B = (1 << WGM12) | (1 << CS11) | (1 << CS10);
-    TCCR2A = (1 << COM1A1) | (1 << COM2B1) | (1 << WGM21) | (1 << WGM20);
+    TCCR2A = (1 << COM2A1) | (1 << COM2B1) | (1 << WGM21) | (1 << WGM20);
     TCCR2B = (1 << CS22);
     HAL_Motor_Coast();
 #else
@@ -46,7 +46,7 @@ void HAL_Motor_SetSpeed(int16_t left_speed, int16_t right_speed){
         OCR2A = (uint8_t)right_speed;
         OCR2B = 0;
     } else if (right_speed < 0) {
-        OCR2A - 0;
+        OCR2A = 0;
         OCR2B = (uint8_t)(-right_speed);
     } else {
         OCR2A = 0;
