@@ -6,14 +6,15 @@
 #define PACKET_SIZE 7U
 #define CMD_EN_MASK (1U << 0)
 #define CMD_MODE_MASK (1U << 1)
-#define CMD_BREAK_MASK (1U << 2)
+#define CMD_BRAKE_MASK (1U << 2)
+#define CMD_GEAR_MASK (3U << 3)
 
 typedef struct {
     uint8_t EN : 1;
     uint8_t Mode : 1;
     uint8_t BRAKE : 1;
-    uint8_t GEAR : 1;
-    uint8_t RESERSED : 3;
+    uint8_t GEAR : 2;
+    uint8_t RESERVED : 3;
 } CmdBits_t;
 
 typedef union {
@@ -27,11 +28,12 @@ typedef union {
         CmdReg_t ctrl;
         int16_t left_speed;
         int16_t right_speed;
+        uint8_t checksum;
     } field;
     uint8_t raw[PACKET_SIZE];
 } CarPacket_t;
 
-_Static_assert(sizeof(CarPacket_t) == PACKET_SIZE, "CarPacket_t phai dung 7 byte!");
+_Static_assert(sizeof(((CarPacket_t*)0)->field) == PACKET_SIZE, "Struct field phai dung 7 byte!");
 
 typedef struct {
     uint8_t buf[PACKET_SIZE];
@@ -40,5 +42,5 @@ typedef struct {
 
 void Parser_Init(PacketParser_t *parser);
 uint8_t Packet_CalcChecksum(const uint8_t *data, uint8_t len);
-bool Packet_Parse(CarPacket_t *out_pkt, const uint8_t raw_bytes[PACKET_SIZE]);
+bool Packet_Feed(PacketParser_t *parser, uint8_t byte, CarPacket_t *out_pkt);
 #endif
