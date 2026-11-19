@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "name": "AVR_ATmega328P",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/Drivers",
+                "${workspaceFolder}/Middlewares",
+                "${workspaceFolder}/App",
+                "C:/msys64/ucrt64/avr/include"
+            ],
+            "defines": [
+                "__AVR_ATmega328P__",
+                "F_CPU=16000000UL"
+            ],
+            "compilerPath": "C:/msys64/ucrt64/bin/avr-gcc.exe",
+            "cStandard": "c11",
+            "intelliSenseMode": "gcc-x86"
+        }
+    ],
+    "version": 4
+}
