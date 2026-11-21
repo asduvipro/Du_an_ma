@@ -11,12 +11,12 @@
 #include "packet_parser.h"
 #include "car_fsm.h"
 
-#define STANDALONE_MODE 0
+#define STANDALONE_MODE 1
 #define CONTROL_LOOP_MS 10U
 #define RX_BUF_SIZE 64U
 static RingBuffer_t rx_rb;
 static PacketParser_t cmd_parser;
-static void OnUARTByteRêcived(uint8_t received_byte) {
+static void OnUARTByteReceived(uint8_t received_byte) {
     (void)RingBuffer_Put(&rx_rb, received_byte);
 }
 
@@ -25,7 +25,7 @@ static void StandaloneSwitch_Init(void) {
     PORTD |= (1U << PD2);
 }
 
-static bool StandaloneSwitch_IsRunPressed(void) {
+static bool __attribute__((unused)) StandaloneSwitch_IsRunPressed(void) {
     return (PIND & (1U << PD2)) == 0U;
 }
 
@@ -36,6 +36,7 @@ int main(void) {
     HAL_Motor_Init();
     HAL_Sensor_Init();
     HAL_UART_Init();
+    HAL_UART_SetRxCallback(OnUARTByteReceived);
     HAL_Timer_Init();
     StandaloneSwitch_Init();
 
